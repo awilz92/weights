@@ -8,157 +8,187 @@
 <meta name="theme-color" content="#F1EFE8">
 <title>Lift Tracker</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --cream:#F1EFE8;
-    --cream-dark:#E8E5DC;
-    --ink:#1a1a18;
-    --ink2:#6b6a62;
-    --ink3:#9c9a92;
-    --green-bg:#E1F5EE;
-    --green:#1D9E75;
-    --green-dark:#085041;
-    --green-light:#9FE1CB;
-    --purple-bg:#EEEDFE;
-    --purple:#534AB7;
-    --red-bg:#FCEBEB;
-    --red:#A32D2D;
-    --border:rgba(26,26,24,0.12);
-    --white:#ffffff;
-  }
-  html,body{height:100%;background:var(--cream)}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);max-width:480px;margin:0 auto;padding:0}
-  .app{min-height:100vh;padding:0 0 80px}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F1EFE8;
+  --cream-dark:#E8E5DC;
+  --ink:#1a1a18;
+  --ink2:#6b6a62;
+  --ink3:#9c9a92;
+  --green-bg:#E1F5EE;
+  --green:#1D9E75;
+  --green-dark:#085041;
+  --green-light:#9FE1CB;
+  --purple-bg:#EEEDFE;
+  --purple:#534AB7;
+  --red-bg:#FCEBEB;
+  --red:#A32D2D;
+  --border:rgba(26,26,24,0.12);
+  --white:#ffffff;
+}
+html,body{height:100%;background:var(--cream)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);max-width:480px;margin:0 auto}
+.app{min-height:100vh;padding-bottom:80px}
 
-  /* Nav */
-  .nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--white);border-top:0.5px solid var(--border);display:flex;z-index:100;padding:8px 0 max(8px,env(safe-area-inset-bottom))}
-  .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px;border:none;background:transparent;color:var(--ink3);cursor:pointer;font-size:10px;font-family:inherit;font-weight:500;transition:color 0.15s}
-  .nav-btn.active{color:var(--green)}
-  .nav-btn svg{width:22px;height:22px}
+/* Nav */
+.nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--white);border-top:0.5px solid var(--border);display:flex;z-index:100;padding:8px 0 max(8px,env(safe-area-inset-bottom))}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px;border:none;background:transparent;color:var(--ink3);cursor:pointer;font-size:10px;font-family:inherit;font-weight:500;transition:color 0.15s;-webkit-tap-highlight-color:transparent}
+.nav-btn.active{color:var(--green)}
+.nav-btn svg{width:22px;height:22px;stroke:currentColor}
 
-  /* Pages */
-  .page{display:none;padding:0 16px}
-  .page.active{display:block}
-  .page-header{padding:20px 16px 12px;background:var(--cream);position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between}
-  .page-title{font-size:22px;font-weight:600;color:var(--ink)}
+/* Pages */
+.page{display:none}.page.active{display:block}
+.page-header{padding:20px 16px 12px;background:var(--cream);position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between}
+.page-title{font-size:22px;font-weight:600;color:var(--ink)}
+.back-header{display:flex;align-items:center;gap:10px;padding:16px 16px 8px;background:var(--cream);position:sticky;top:0;z-index:50}
+.back-title{font-size:18px;font-weight:600;color:var(--ink)}
+.inner{padding:0 16px}
 
-  /* Cards */
-  .card{background:var(--white);border-radius:16px;border:0.5px solid var(--border);padding:1.25rem;margin-bottom:10px}
-  .card-cream{background:var(--cream-dark);border-radius:16px;padding:1.25rem;margin-bottom:10px}
-  .card-tap{cursor:pointer;transition:transform 0.1s,opacity 0.1s}
-  .card-tap:active{transform:scale(0.985);opacity:0.85}
+/* Cards */
+.card{background:var(--white);border-radius:16px;border:0.5px solid var(--border);padding:1.25rem;margin-bottom:10px}
+.card-cream{background:var(--cream-dark);border-radius:16px;padding:1.25rem;margin-bottom:10px}
+.card-tap{cursor:pointer;transition:transform 0.1s,opacity 0.1s;-webkit-tap-highlight-color:transparent}
+.card-tap:active{transform:scale(0.985);opacity:0.85}
 
-  /* Buttons */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:12px;border:1px solid var(--border);background:var(--white);color:var(--ink);font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.12s;-webkit-tap-highlight-color:transparent}
-  .btn:active{transform:scale(0.97)}
-  .btn-primary{background:var(--ink);color:var(--white);border-color:transparent}
-  .btn-primary:active{opacity:0.85}
-  .btn-danger{color:var(--red);border-color:rgba(163,45,45,0.25);background:var(--red-bg)}
-  .btn-sm{padding:7px 14px;font-size:13px;border-radius:10px}
-  .btn-full{width:100%;margin-top:12px;padding:16px;font-size:16px;border-radius:14px}
-  .btn-ghost{border:none;background:transparent;padding:6px}
+/* Selectable lift card */
+.lift-select-card{background:var(--white);border-radius:14px;border:1.5px solid var(--border);padding:1rem 1.1rem;margin-bottom:8px;cursor:pointer;transition:all 0.12s;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent}
+.lift-select-card.selected{border-color:var(--green);background:var(--green-bg)}
+.lift-select-card:active{transform:scale(0.985)}
+.check-circle{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ink3);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.12s}
+.lift-select-card.selected .check-circle{border-color:var(--green);background:var(--green)}
 
-  /* Badges */
-  .badge{display:inline-flex;align-items:center;font-size:12px;font-weight:500;padding:3px 10px;border-radius:99px}
-  .badge-up{background:var(--green-bg);color:var(--green-dark)}
-  .badge-pr{background:var(--purple-bg);color:var(--purple)}
-  .badge-fail{background:var(--red-bg);color:var(--red)}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:12px;border:1px solid var(--border);background:var(--white);color:var(--ink);font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.12s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:scale(0.97)}
+.btn-primary{background:var(--ink);color:var(--white);border-color:transparent}
+.btn-primary:active{opacity:0.85}
+.btn-danger{color:var(--red);border-color:rgba(163,45,45,0.25);background:var(--red-bg)}
+.btn-sm{padding:7px 14px;font-size:13px;border-radius:10px}
+.btn-full{width:100%;margin-top:12px;padding:16px;font-size:16px;border-radius:14px}
 
-  /* Lift list */
-  .lift-name{font-size:16px;font-weight:500;color:var(--ink)}
-  .lift-meta{font-size:13px;color:var(--ink3);margin-top:3px}
-  .lift-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+/* Badges */
+.badge{display:inline-flex;align-items:center;font-size:12px;font-weight:500;padding:3px 10px;border-radius:99px}
+.badge-up{background:var(--green-bg);color:var(--green-dark)}
+.badge-fail{background:var(--red-bg);color:var(--red)}
+.badge-gray{background:var(--cream-dark);color:var(--ink2)}
 
-  /* Set logging */
-  .big-title{font-size:28px;font-weight:600;color:var(--ink);margin-bottom:2px}
-  .set-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-  .set-card{border:1px solid var(--border);border-radius:12px;padding:14px 8px;text-align:center;background:var(--white)}
-  .set-card.done{border-color:var(--green);background:var(--green-bg)}
-  .set-card.failed{border-color:var(--red);background:var(--red-bg)}
-  .set-label{font-size:11px;color:var(--ink3);margin-bottom:5px}
-  .set-reps{font-size:20px;font-weight:600;color:var(--ink)}
-  .set-card.done .set-reps{color:var(--green-dark)}
-  .set-card.failed .set-reps{color:var(--red)}
-  .set-sublabel{font-size:11px;margin-top:3px;color:var(--ink3)}
-  .set-card.done .set-sublabel{color:var(--green)}
-  .set-card.failed .set-sublabel{color:var(--red)}
-  .dots{display:flex;gap:8px;align-items:center;margin-top:10px}
-  .dot{width:10px;height:10px;border-radius:50%;background:var(--cream-dark)}
-  .dot.done{background:var(--green)}
-  .dot.failed{background:var(--red)}
+/* Lift name/meta */
+.lift-name{font-size:15px;font-weight:500;color:var(--ink)}
+.lift-meta{font-size:12px;color:var(--ink3);margin-top:2px}
+.lift-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
 
-  /* Weight control */
-  .weight-ctrl{display:flex;align-items:center;gap:16px;justify-content:center;padding:16px 0}
-  .w-btn{width:48px;height:48px;border-radius:50%;border:1px solid var(--border);background:var(--white);color:var(--ink);font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all 0.1s}
-  .w-btn:active{background:var(--cream);transform:scale(0.93)}
-  .w-val{font-size:30px;font-weight:600;color:var(--ink);min-width:110px;text-align:center}
+/* Set logging */
+.big-title{font-size:26px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.set-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.set-card{border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center;background:var(--white)}
+.set-card.done{border-color:var(--green);background:var(--green-bg)}
+.set-card.failed{border-color:var(--red);background:var(--red-bg)}
+.set-label{font-size:11px;color:var(--ink3);margin-bottom:4px}
+.set-reps{font-size:19px;font-weight:600;color:var(--ink)}
+.set-card.done .set-reps{color:var(--green-dark)}
+.set-card.failed .set-reps{color:var(--red)}
+.set-sublabel{font-size:10px;margin-top:2px;color:var(--ink3)}
+.set-card.done .set-sublabel{color:var(--green)}
+.set-card.failed .set-sublabel{color:var(--red)}
+.dots{display:flex;gap:7px;align-items:center;margin-top:10px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--cream-dark)}
+.dot.done{background:var(--green)}.dot.failed{background:var(--red)}
 
-  /* Reps row */
-  .reps-row{display:flex;align-items:center;gap:12px;justify-content:center;padding:10px 0 4px;border-top:0.5px solid var(--border);margin-top:4px}
+/* Weight control */
+.weight-ctrl{display:flex;align-items:center;gap:14px;justify-content:center;padding:14px 0}
+.w-btn{width:46px;height:46px;border-radius:50%;border:1px solid var(--border);background:var(--white);color:var(--ink);font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all 0.1s}
+.w-btn:active{background:var(--cream);transform:scale(0.92)}
+.w-val{font-size:28px;font-weight:600;color:var(--ink);min-width:110px;text-align:center}
+.reps-row{display:flex;align-items:center;gap:10px;justify-content:center;padding:10px 0 4px;border-top:0.5px solid var(--border);margin-top:4px}
 
-  /* Stats */
-  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-  .stat{background:var(--cream);border-radius:12px;padding:14px}
-  .stat-label{font-size:12px;color:var(--ink3);margin-bottom:3px}
-  .stat-val{font-size:24px;font-weight:600;color:var(--ink)}
-  .stat-val.green{color:var(--green-dark)}
+/* Stats */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.stat{background:var(--cream);border-radius:12px;padding:12px}
+.stat-label{font-size:12px;color:var(--ink3);margin-bottom:2px}
+.stat-val{font-size:22px;font-weight:600;color:var(--ink)}
+.stat-val.green{color:var(--green-dark)}
+.rule-box{border-left:3px solid var(--green);padding:10px 14px;background:var(--green-bg);border-radius:0 10px 10px 0;margin-top:10px;font-size:13px;color:var(--green-dark);line-height:1.5}
+.bar-chart{display:flex;align-items:flex-end;gap:5px;height:60px;background:var(--cream);border-radius:10px;padding:8px 10px 0}
+.bar{flex:1;border-radius:4px 4px 0 0}
 
-  /* Rule box */
-  .rule-box{border-left:3px solid var(--green);padding:10px 14px;background:var(--green-bg);border-radius:0 10px 10px 0;margin-top:10px;font-size:13px;color:var(--green-dark);line-height:1.5}
+/* Progress indicator */
+.progress-strip{display:flex;gap:4px;margin-bottom:12px}
+.progress-pip{height:4px;flex:1;border-radius:99px;background:var(--cream-dark)}
+.progress-pip.done{background:var(--green)}
+.progress-pip.active{background:var(--green-light)}
 
-  /* Bar chart */
-  .bar-chart{display:flex;align-items:flex-end;gap:5px;height:64px;background:var(--cream);border-radius:10px;padding:10px 10px 0}
-  .bar{flex:1;border-radius:4px 4px 0 0}
+/* Forms */
+.form-row{margin-bottom:12px}
+.form-label{font-size:13px;color:var(--ink2);font-weight:500;display:block;margin-bottom:5px}
+input[type=text],input[type=number],select{font-family:inherit;font-size:16px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--white);color:var(--ink);width:100%}
+input:focus,select:focus{outline:none;border-color:var(--green)}
+.inline-form{background:var(--cream-dark);border-radius:16px;padding:1.25rem;margin-bottom:12px}
+.checkbox-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border);cursor:pointer}
+.checkbox-row:last-child{border-bottom:none}
+.checkbox-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);cursor:pointer}
 
-  /* Forms */
-  .form-row{margin-bottom:14px}
-  .form-label{font-size:13px;color:var(--ink2);font-weight:500;display:block;margin-bottom:5px}
-  input[type=text],input[type=number],select{font-family:inherit;font-size:16px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--white);color:var(--ink);width:100%}
-  input:focus,select:focus{outline:none;border-color:var(--green)}
-  .inline-form{background:var(--cream-dark);border-radius:16px;padding:1.25rem;margin-bottom:12px}
+/* History */
+.history-sets{display:flex;gap:6px;margin-top:8px}
+.hset{flex:1;border-radius:8px;padding:8px 4px;text-align:center}
+.hset-done{background:var(--green-bg)}.hset-fail{background:var(--red-bg)}
 
-  /* History */
-  .history-sets{display:flex;gap:6px;margin-top:8px}
-  .hset{flex:1;border-radius:8px;padding:8px 4px;text-align:center}
-  .hset-done{background:var(--green-bg)}
-  .hset-fail{background:var(--red-bg)}
+/* Toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--white);padding:10px 22px;border-radius:99px;font-size:14px;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;z-index:999}
+.toast.show{opacity:1}
+.empty{text-align:center;color:var(--ink3);font-size:15px;padding:3rem 1rem;line-height:1.7}
+.empty-icon{font-size:36px;margin-bottom:10px}
 
-  /* Toast */
-  .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--white);padding:10px 22px;border-radius:99px;font-size:14px;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;z-index:999}
-  .toast.show{opacity:1}
-
-  /* Empty state */
-  .empty{text-align:center;color:var(--ink3);font-size:15px;padding:3rem 1rem;line-height:1.6}
-  .empty-icon{font-size:36px;margin-bottom:12px}
-
-  /* Section divider */
-  .section-label{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:0.06em;margin:16px 0 8px}
-
-  /* Back header */
-  .back-header{display:flex;align-items:center;gap:8px;padding:16px 16px 8px}
-  .back-header .page-title{font-size:20px}
+/* Routine color dots */
+.routine-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.section-label{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:0.06em;margin:16px 0 8px}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- PAGE: LIFTS -->
-  <div class="page active" id="page-lifts">
+  <!-- ═══════════════ ROUTINES PAGE ═══════════════ -->
+  <div class="page active" id="page-routines">
     <div class="page-header">
-      <span class="page-title">My lifts</span>
-      <button class="btn btn-sm btn-primary" onclick="toggleAddLift()">+ Add lift</button>
+      <span class="page-title">Routines</span>
+      <button class="btn btn-sm btn-primary" onclick="toggleAddRoutine()">+ New</button>
     </div>
-    <div style="padding:0 16px">
+    <div class="inner">
+      <div class="inline-form" id="add-routine-form" style="display:none">
+        <div class="form-row"><label class="form-label">Routine name</label>
+          <input type="text" id="new-routine-name" placeholder="e.g. Push day, Pull day, Legs…">
+        </div>
+        <div class="form-label" style="margin-bottom:8px">Lifts in this routine</div>
+        <div id="routine-lift-checkboxes" style="background:var(--white);border-radius:12px;padding:0 12px;margin-bottom:12px"></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary" onclick="addRoutine()" style="flex:1">Save routine</button>
+          <button class="btn" onclick="toggleAddRoutine()">Cancel</button>
+        </div>
+      </div>
+      <div id="routines-list"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ LIFTS PAGE ═══════════════ -->
+  <div class="page" id="page-lifts">
+    <div class="page-header">
+      <span class="page-title">Lifts</span>
+      <button class="btn btn-sm btn-primary" onclick="toggleAddLift()">+ Add</button>
+    </div>
+    <div class="inner">
       <div class="inline-form" id="add-lift-form" style="display:none">
-        <div class="form-row"><label class="form-label">Lift name</label><input type="text" id="new-lift-name" placeholder="e.g. Bench press" autocomplete="off"></div>
-        <div class="form-row"><label class="form-label">Starting weight (lbs)</label><input type="number" id="new-lift-weight" value="45" min="0" step="2.5" inputmode="decimal"></div>
+        <div class="form-row"><label class="form-label">Lift name</label>
+          <input type="text" id="new-lift-name" placeholder="e.g. Bench press" autocomplete="off">
+        </div>
+        <div class="form-row"><label class="form-label">Starting weight (lbs)</label>
+          <input type="number" id="new-lift-weight" value="45" min="0" step="2.5" inputmode="decimal">
+        </div>
         <div class="form-row"><label class="form-label">Weight increment</label>
           <select id="new-lift-inc">
-            <option value="2.5">+2.5 lbs (isolation lifts)</option>
-            <option value="5" selected>+5 lbs (compound lifts)</option>
+            <option value="2.5">+2.5 lbs — isolation lifts</option>
+            <option value="5" selected>+5 lbs — compound lifts</option>
           </select>
         </div>
-        <div style="display:flex;gap:8px;margin-top:4px">
+        <div style="display:flex;gap:8px">
           <button class="btn btn-primary" onclick="addLift()" style="flex:1">Save lift</button>
           <button class="btn" onclick="toggleAddLift()">Cancel</button>
         </div>
@@ -167,124 +197,155 @@
     </div>
   </div>
 
-  <!-- PAGE: LOG -->
+  <!-- ═══════════════ LOG PAGE ═══════════════ -->
   <div class="page" id="page-log">
-    <div id="log-select-view">
+
+    <!-- Step 0: pick routine or free pick -->
+    <div id="log-step-routine">
       <div class="page-header"><span class="page-title">Log workout</span></div>
-      <div style="padding:0 16px" id="log-lift-list"></div>
-    </div>
-    <div id="log-session-view" style="display:none">
-      <div class="back-header">
-        <button class="btn btn-sm" onclick="backToSelect()">← Back</button>
+      <div class="inner">
+        <div class="section-label">Start a routine</div>
+        <div id="log-routine-list"></div>
+        <div class="section-label">Or log a single lift</div>
+        <div id="log-free-list"></div>
       </div>
-      <div style="padding:0 16px">
+    </div>
+
+    <!-- Step 1: select lifts from routine -->
+    <div id="log-step-select" style="display:none">
+      <div class="back-header">
+        <button class="btn btn-sm" onclick="backToRoutinePick()">← Back</button>
+        <span class="back-title" id="select-routine-name"></span>
+      </div>
+      <div class="inner">
+        <p style="font-size:14px;color:var(--ink3);margin-bottom:12px">Tap the lifts you want to do today, then press Start.</p>
+        <div id="lift-select-list"></div>
+        <button class="btn btn-primary btn-full" id="start-session-btn" onclick="startRoutineSession()">Start workout</button>
+      </div>
+    </div>
+
+    <!-- Step 2: log sets for each lift -->
+    <div id="log-step-session" style="display:none">
+      <div class="back-header">
+        <button class="btn btn-sm" onclick="confirmAbort()">✕ Cancel</button>
+        <span class="back-title" id="session-routine-label"></span>
+      </div>
+      <div class="inner">
+        <div id="session-progress-strip" class="progress-strip"></div>
         <div class="card-cream">
-          <div class="big-title" id="log-lift-title"></div>
-          <div style="font-size:14px;color:var(--ink3);margin-top:2px" id="log-target-line"></div>
-          <div class="dots" id="log-dots"></div>
+          <div style="font-size:12px;color:var(--ink3);margin-bottom:2px" id="session-lift-counter"></div>
+          <div class="big-title" id="session-lift-name"></div>
+          <div style="font-size:13px;color:var(--ink3);margin-top:2px" id="session-target-line"></div>
+          <div class="dots" id="session-dots"></div>
         </div>
         <div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <span style="font-size:14px;color:var(--ink2);font-weight:500">Weight</span>
-            <span style="font-size:12px;color:var(--ink3)" id="log-inc-label"></span>
+            <span style="font-size:12px;color:var(--ink3)" id="session-inc-label"></span>
           </div>
           <div class="weight-ctrl">
             <button class="w-btn" onclick="adjustWeight(-1)">−</button>
-            <span class="w-val" id="log-weight-display">135 lbs</span>
+            <span class="w-val" id="session-weight-display"></span>
             <button class="w-btn" onclick="adjustWeight(1)">+</button>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)">
-            <span id="log-last-weight"></span>
-            <span id="log-pr-line"></span>
+            <span id="session-last-weight"></span>
+            <span id="session-pr-line"></span>
           </div>
         </div>
-        <div class="card" id="log-sets-card">
-          <div class="set-grid" id="log-sets"></div>
-          <button class="btn btn-primary btn-full" id="log-set-btn" onclick="logSet()">Log set 1</button>
+        <div class="card" id="session-sets-card">
+          <div class="set-grid" id="session-sets"></div>
+          <button class="btn btn-primary btn-full" id="session-set-btn" onclick="logSet()">Log set 1</button>
         </div>
-        <div id="log-session-done" style="display:none">
-          <div class="card" style="text-align:center;padding:2rem 1.5rem">
-            <div style="font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px" id="done-msg"></div>
-            <div style="font-size:14px;color:var(--ink3);line-height:1.5" id="done-sub"></div>
-            <button class="btn btn-primary btn-full" onclick="finishSession()">Save &amp; finish</button>
+        <!-- next lift / done buttons shown after 3 sets -->
+        <div id="session-advance" style="display:none">
+          <div class="card" style="text-align:center;padding:1.5rem">
+            <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px" id="advance-msg"></div>
+            <div style="font-size:13px;color:var(--ink3)" id="advance-sub"></div>
+            <div style="display:flex;gap:8px;margin-top:16px">
+              <button class="btn btn-primary" style="flex:1;padding:14px" id="advance-btn" onclick="advanceSession()">Next lift →</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 
-  <!-- PAGE: HISTORY -->
+  <!-- ═══════════════ HISTORY PAGE ═══════════════ -->
   <div class="page" id="page-history">
     <div class="page-header">
       <span class="page-title">History</span>
       <button class="btn btn-sm" onclick="exportCSV()">Export CSV</button>
     </div>
-    <div style="padding:0 16px" id="history-list"></div>
+    <div class="inner" id="history-list"></div>
   </div>
 
-  <!-- BOTTOM NAV -->
+  <!-- Bottom nav -->
   <nav class="nav-bar">
-    <button class="nav-btn active" onclick="showPage('lifts',this)" id="nav-lifts">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button class="nav-btn active" id="nav-routines" onclick="showPage('routines',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+      </svg>
+      Routines
+    </button>
+    <button class="nav-btn" id="nav-lifts" onclick="showPage('lifts',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M6 4v16M18 4v16M3 8h4M17 8h4M3 16h4M17 16h4"/>
       </svg>
       Lifts
     </button>
-    <button class="nav-btn" onclick="showPage('log',this)" id="nav-log">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button class="nav-btn" id="nav-log" onclick="showPage('log',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
       </svg>
       Log
     </button>
-    <button class="nav-btn" onclick="showPage('history',this)" id="nav-history">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button class="nav-btn" id="nav-history" onclick="showPage('history',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
       </svg>
       History
     </button>
   </nav>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-const STORAGE_KEY = 'lift-tracker-v1';
-let state = { lifts: [], history: [] };
+// ─── State ────────────────────────────────────────────────
+const KEY = 'lift-tracker-v2';
+let state = { lifts: [], routines: [], history: [] };
 
-function loadState() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) state = JSON.parse(raw);
-  } catch(e) {}
+function load() {
+  try { const r = localStorage.getItem(KEY); if (r) state = JSON.parse(r); } catch(e) {}
   renderAll();
 }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
 
-function saveState() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
-}
-
+// ─── Nav ──────────────────────────────────────────────────
 function showPage(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   btn.classList.add('active');
-  if (name === 'log') renderLogSelect();
+  if (name === 'log') renderLogStep0();
   if (name === 'history') renderHistory();
+  if (name === 'routines') renderRoutines();
   window.scrollTo(0, 0);
 }
 
 function toast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2400);
 }
 
+// ─── LIFTS ────────────────────────────────────────────────
 function toggleAddLift() {
   const f = document.getElementById('add-lift-form');
-  const visible = f.style.display !== 'none';
-  f.style.display = visible ? 'none' : 'block';
-  if (!visible) setTimeout(() => document.getElementById('new-lift-name').focus(), 50);
+  const show = f.style.display === 'none';
+  f.style.display = show ? 'block' : 'none';
+  if (show) setTimeout(() => document.getElementById('new-lift-name').focus(), 50);
 }
 
 function addLift() {
@@ -293,7 +354,7 @@ function addLift() {
   const inc = parseFloat(document.getElementById('new-lift-inc').value);
   if (!name) { toast('Enter a lift name'); return; }
   state.lifts.push({ id: Date.now(), name, weight, inc, pr: weight, pendingUp: false });
-  saveState();
+  save();
   document.getElementById('new-lift-name').value = '';
   document.getElementById('new-lift-weight').value = 45;
   document.getElementById('add-lift-form').style.display = 'none';
@@ -302,16 +363,17 @@ function addLift() {
 }
 
 function deleteLift(id) {
-  if (!confirm('Remove this lift and its history?')) return;
+  if (!confirm('Remove this lift? It will also be removed from any routines.')) return;
   state.lifts = state.lifts.filter(l => l.id !== id);
+  state.routines.forEach(r => { r.liftIds = r.liftIds.filter(lid => lid !== id); });
   state.history = state.history.filter(h => h.liftId !== id);
-  saveState(); renderLifts();
+  save(); renderLifts(); renderRoutines();
 }
 
 function renderLifts() {
   const el = document.getElementById('lifts-list');
   if (!state.lifts.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">🏋️</div>No lifts yet.<br>Tap <strong>+ Add lift</strong> to get started.</div>';
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🏋️</div>No lifts yet.<br>Tap <strong>+ Add</strong> to create your first lift.</div>';
     return;
   }
   el.innerHTML = state.lifts.map(l => `
@@ -329,63 +391,262 @@ function renderLifts() {
     </div>`).join('');
 }
 
-let session = null;
+// ─── ROUTINES ────────────────────────────────────────────
+const ROUTINE_COLORS = ['#1D9E75','#534AB7','#D85A30','#378ADD','#BA7517'];
 
-function renderLogSelect() {
-  const el = document.getElementById('log-lift-list');
-  document.getElementById('log-select-view').style.display = 'block';
-  document.getElementById('log-session-view').style.display = 'none';
+function toggleAddRoutine() {
+  const f = document.getElementById('add-routine-form');
+  const show = f.style.display === 'none';
+  f.style.display = show ? 'block' : 'none';
+  if (show) {
+    renderRoutineLiftCheckboxes();
+    setTimeout(() => document.getElementById('new-routine-name').focus(), 50);
+  }
+}
+
+function renderRoutineLiftCheckboxes() {
+  const el = document.getElementById('routine-lift-checkboxes');
   if (!state.lifts.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">💪</div>Add lifts on the Lifts tab first.</div>';
+    el.innerHTML = '<div style="padding:12px 0;font-size:13px;color:var(--ink3)">Add lifts first on the Lifts tab.</div>';
     return;
   }
   el.innerHTML = state.lifts.map(l => `
-    <div class="card card-tap" onclick="startSession(${l.id})">
-      <div class="lift-row">
-        <div>
-          <div class="lift-name">${l.name}</div>
-          <div class="lift-meta">Last: ${l.weight} lbs${l.pendingUp ? ` &nbsp;·&nbsp; <span style="color:var(--green-dark);font-weight:500">→ ${+(l.weight+l.inc).toFixed(1)} lbs next</span>` : ''}</div>
-        </div>
-        ${l.pendingUp ? `<span class="badge badge-up">+${l.inc}</span>` : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'}
-      </div>
-    </div>`).join('');
+    <label class="checkbox-row">
+      <input type="checkbox" value="${l.id}" id="rc-${l.id}">
+      <span style="font-size:14px;color:var(--ink)">${l.name}</span>
+      <span style="font-size:12px;color:var(--ink3);margin-left:auto">${l.weight} lbs</span>
+    </label>`).join('');
 }
 
-function startSession(id) {
-  const lift = state.lifts.find(l => l.id === id);
-  if (!lift) return;
-  const startWeight = lift.pendingUp ? +(lift.weight + lift.inc).toFixed(1) : lift.weight;
-  session = { liftId: id, weight: startWeight, sets: [], repsInput: 10 };
-  document.getElementById('log-select-view').style.display = 'none';
-  document.getElementById('log-session-view').style.display = 'block';
-  document.getElementById('log-session-done').style.display = 'none';
-  document.getElementById('log-sets-card').style.display = 'block';
-  document.getElementById('log-lift-title').textContent = lift.name;
-  document.getElementById('log-target-line').textContent = `Target: ${startWeight} lbs · 3 × 10`;
-  document.getElementById('log-last-weight').textContent = `Last: ${lift.weight} lbs`;
-  document.getElementById('log-pr-line').textContent = `PR: ${lift.pr} lbs`;
-  document.getElementById('log-inc-label').textContent = `+${lift.inc} lbs per step`;
+function addRoutine() {
+  const name = document.getElementById('new-routine-name').value.trim();
+  if (!name) { toast('Enter a routine name'); return; }
+  const liftIds = state.lifts
+    .filter(l => document.getElementById('rc-' + l.id)?.checked)
+    .map(l => l.id);
+  if (!liftIds.length) { toast('Select at least one lift'); return; }
+  const color = ROUTINE_COLORS[state.routines.length % ROUTINE_COLORS.length];
+  state.routines.push({ id: Date.now(), name, liftIds, color });
+  save();
+  document.getElementById('new-routine-name').value = '';
+  document.getElementById('add-routine-form').style.display = 'none';
+  renderRoutines();
+  toast('Routine saved ✓');
+}
+
+function deleteRoutine(id) {
+  if (!confirm('Delete this routine?')) return;
+  state.routines = state.routines.filter(r => r.id !== id);
+  save(); renderRoutines();
+}
+
+function renderRoutines() {
+  const el = document.getElementById('routines-list');
+  if (!state.routines.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>No routines yet.<br>Tap <strong>+ New</strong> to group lifts into a routine.</div>';
+    return;
+  }
+  el.innerHTML = state.routines.map(r => {
+    const liftNames = r.liftIds.map(id => state.lifts.find(l => l.id === id)?.name).filter(Boolean);
+    const sessionCount = state.history.filter(h => h.routineId === r.id).length;
+    return `<div class="card">
+      <div class="lift-row" style="margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <div class="routine-dot" style="background:${r.color}"></div>
+          <div>
+            <div class="lift-name">${r.name}</div>
+            <div class="lift-meta">${liftNames.length} lift${liftNames.length!==1?'s':''} &nbsp;·&nbsp; ${sessionCount} session${sessionCount!==1?'s':''}</div>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-danger" onclick="deleteRoutine(${r.id})">Delete</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        ${liftNames.map(n => `<span class="badge badge-gray">${n}</span>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── LOG: Step 0 — pick routine or single lift ───────────
+function renderLogStep0() {
+  showLogStep('routine');
+  const rEl = document.getElementById('log-routine-list');
+  const fEl = document.getElementById('log-free-list');
+
+  if (!state.routines.length) {
+    rEl.innerHTML = '<div style="font-size:13px;color:var(--ink3);padding:6px 0 12px">No routines yet — create one on the Routines tab.</div>';
+  } else {
+    rEl.innerHTML = state.routines.map(r => {
+      const liftNames = r.liftIds.map(id => state.lifts.find(l => l.id === id)?.name).filter(Boolean);
+      return `<div class="card card-tap" onclick="pickRoutine(${r.id})">
+        <div class="lift-row">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="routine-dot" style="background:${r.color}"></div>
+            <div>
+              <div class="lift-name">${r.name}</div>
+              <div class="lift-meta">${liftNames.slice(0,4).join(' · ')}${liftNames.length>4?' …':''}</div>
+            </div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  if (!state.lifts.length) {
+    fEl.innerHTML = '<div style="font-size:13px;color:var(--ink3);padding:6px 0 12px">No lifts yet — add one on the Lifts tab.</div>';
+  } else {
+    fEl.innerHTML = state.lifts.map(l => `
+      <div class="card card-tap" onclick="startSingleLift(${l.id})">
+        <div class="lift-row">
+          <div>
+            <div class="lift-name">${l.name}</div>
+            <div class="lift-meta">Last: ${l.weight} lbs${l.pendingUp ? ` · <span style="color:var(--green-dark);font-weight:500">→ ${+(l.weight+l.inc).toFixed(1)} lbs next</span>` : ''}</div>
+          </div>
+          ${l.pendingUp ? `<span class="badge badge-up">+${l.inc}</span>` : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'}
+        </div>
+      </div>`).join('');
+  }
+}
+
+// ─── LOG: Step 1 — select lifts from routine ─────────────
+let currentRoutineId = null;
+let selectedLiftIds = [];
+
+function pickRoutine(routineId) {
+  currentRoutineId = routineId;
+  selectedLiftIds = [];
+  const routine = state.routines.find(r => r.id === routineId);
+  document.getElementById('select-routine-name').textContent = routine.name;
+  const liftIds = routine.liftIds.filter(id => state.lifts.find(l => l.id === id));
+
+  const el = document.getElementById('lift-select-list');
+  el.innerHTML = liftIds.map(id => {
+    const l = state.lifts.find(l => l.id === id);
+    return `<div class="lift-select-card" id="sc-${l.id}" onclick="toggleLiftSelect(${l.id})">
+      <div>
+        <div class="lift-name">${l.name}</div>
+        <div class="lift-meta">Last: ${l.weight} lbs${l.pendingUp ? ` · <span style="color:var(--green-dark)">→ ${+(l.weight+l.inc).toFixed(1)} lbs next</span>` : ''}</div>
+      </div>
+      <div class="check-circle" id="cc-${l.id}">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none" id="chk-${l.id}"><polyline points="2 6 5 9 10 3"/></svg>
+      </div>
+    </div>`;
+  }).join('');
+
+  updateStartBtn();
+  showLogStep('select');
+}
+
+function toggleLiftSelect(id) {
+  const idx = selectedLiftIds.indexOf(id);
+  if (idx === -1) selectedLiftIds.push(id);
+  else selectedLiftIds.splice(idx, 1);
+  const card = document.getElementById('sc-' + id);
+  const chk = document.getElementById('chk-' + id);
+  if (selectedLiftIds.includes(id)) {
+    card.classList.add('selected');
+    chk.style.display = 'block';
+  } else {
+    card.classList.remove('selected');
+    chk.style.display = 'none';
+  }
+  updateStartBtn();
+}
+
+function updateStartBtn() {
+  const btn = document.getElementById('start-session-btn');
+  btn.textContent = selectedLiftIds.length
+    ? `Start workout (${selectedLiftIds.length} lift${selectedLiftIds.length!==1?'s':''})`
+    : 'Start workout';
+  btn.disabled = selectedLiftIds.length === 0;
+  btn.style.opacity = selectedLiftIds.length ? '1' : '0.45';
+}
+
+function backToRoutinePick() { showLogStep('routine'); renderLogStep0(); }
+
+// ─── LOG: Step 2 — session ────────────────────────────────
+let session = null; // { routineId, liftsQueue: [liftId,...], currentIdx, sets, weight, repsInput }
+
+function startRoutineSession() {
+  if (!selectedLiftIds.length) return;
+  // preserve routine lift order
+  const routine = state.routines.find(r => r.id === currentRoutineId);
+  const ordered = routine.liftIds.filter(id => selectedLiftIds.includes(id));
+  session = {
+    routineId: currentRoutineId,
+    routineName: routine.name,
+    liftsQueue: ordered,
+    currentIdx: 0,
+    completedLifts: [],
+    sets: [], weight: 0, repsInput: 10
+  };
+  initCurrentLift();
+  showLogStep('session');
+}
+
+function startSingleLift(liftId) {
+  currentRoutineId = null;
+  session = {
+    routineId: null,
+    routineName: 'Single lift',
+    liftsQueue: [liftId],
+    currentIdx: 0,
+    completedLifts: [],
+    sets: [], weight: 0, repsInput: 10
+  };
+  initCurrentLift();
+  showLogStep('session');
+}
+
+function initCurrentLift() {
+  const liftId = session.liftsQueue[session.currentIdx];
+  const lift = state.lifts.find(l => l.id === liftId);
+  session.sets = [];
+  session.repsInput = 10;
+  session.weight = lift.pendingUp ? +(lift.weight + lift.inc).toFixed(1) : lift.weight;
+
+  document.getElementById('session-routine-label').textContent = session.routineName;
+  document.getElementById('session-lift-name').textContent = lift.name;
+  document.getElementById('session-target-line').textContent = `Target: ${session.weight} lbs · 3 × 10`;
+  document.getElementById('session-last-weight').textContent = `Last: ${lift.weight} lbs`;
+  document.getElementById('session-pr-line').textContent = `PR: ${lift.pr} lbs`;
+  document.getElementById('session-inc-label').textContent = `+${lift.inc} lbs per step`;
+  document.getElementById('session-lift-counter').textContent =
+    `Lift ${session.currentIdx + 1} of ${session.liftsQueue.length}`;
+  document.getElementById('session-advance').style.display = 'none';
+  document.getElementById('session-sets-card').style.display = 'block';
+
+  renderProgressStrip();
   renderSessionWeight();
-  renderSets();
+  renderSessionSets();
   window.scrollTo(0, 0);
 }
 
-function backToSelect() { session = null; renderLogSelect(); }
+function renderProgressStrip() {
+  const el = document.getElementById('session-progress-strip');
+  el.innerHTML = session.liftsQueue.map((id, i) => {
+    let cls = 'progress-pip';
+    if (i < session.currentIdx) cls += ' done';
+    else if (i === session.currentIdx) cls += ' active';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
 
 function renderSessionWeight() {
-  document.getElementById('log-weight-display').textContent = session.weight + ' lbs';
+  document.getElementById('session-weight-display').textContent = session.weight + ' lbs';
 }
 
 function adjustWeight(dir) {
-  const lift = state.lifts.find(l => l.id === session.liftId);
+  const lift = state.lifts.find(l => l.id === session.liftsQueue[session.currentIdx]);
   session.weight = Math.max(0, +(session.weight + dir * lift.inc).toFixed(1));
   renderSessionWeight();
 }
 
-function renderSets() {
-  const dots = document.getElementById('log-dots');
-  const grid = document.getElementById('log-sets');
-  const btn = document.getElementById('log-set-btn');
+function renderSessionSets() {
+  const dots = document.getElementById('session-dots');
+  const grid = document.getElementById('session-sets');
+  const btn = document.getElementById('session-set-btn');
 
   dots.innerHTML = [0,1,2].map(i => {
     const s = session.sets[i];
@@ -395,10 +656,9 @@ function renderSets() {
   grid.innerHTML = [0,1,2].map(i => {
     const s = session.sets[i];
     if (!s) return `<div class="set-card"><div class="set-label">Set ${i+1}</div><div class="set-reps" style="color:var(--ink3)">—</div></div>`;
-    const cls = s.failed ? 'failed' : 'done';
-    return `<div class="set-card ${cls}">
+    return `<div class="set-card ${s.failed?'failed':'done'}">
       <div class="set-label">Set ${i+1}</div>
-      <div class="set-reps">${s.reps}${s.failed ? ' ✗' : ' ✓'}</div>
+      <div class="set-reps">${s.reps}${s.failed?' ✗':' ✓'}</div>
       <div class="set-sublabel">${s.weight} lbs</div>
     </div>`;
   }).join('');
@@ -406,22 +666,24 @@ function renderSets() {
   if (session.sets.length < 3) {
     btn.style.display = 'block';
     btn.textContent = `Log set ${session.sets.length + 1}`;
-    document.getElementById('log-session-done').style.display = 'none';
-
-    // Reps + fail controls
-    const ctrl = document.createElement('div');
-    ctrl.className = 'reps-row';
-    ctrl.innerHTML = `
-      <span style="font-size:13px;color:var(--ink3)">Reps:</span>
-      <button class="w-btn" style="width:36px;height:36px;font-size:20px" onclick="adjReps(-1)">−</button>
-      <span id="reps-disp" style="font-size:18px;font-weight:600;color:var(--ink);min-width:28px;text-align:center">${session.repsInput}</span>
-      <button class="w-btn" style="width:36px;height:36px;font-size:20px" onclick="adjReps(1)">+</button>
-      <button class="btn btn-sm btn-danger" onclick="logFailed()">Mark failed</button>`;
-    grid.appendChild(ctrl);
+    document.getElementById('session-advance').style.display = 'none';
+    addSessionRepsControls(grid);
   } else {
     btn.style.display = 'none';
-    showSessionDone();
+    showAdvancePanel();
   }
+}
+
+function addSessionRepsControls(grid) {
+  const ctrl = document.createElement('div');
+  ctrl.className = 'reps-row';
+  ctrl.innerHTML = `
+    <span style="font-size:13px;color:var(--ink3)">Reps:</span>
+    <button class="w-btn" style="width:36px;height:36px;font-size:20px" onclick="adjReps(-1)">−</button>
+    <span id="reps-disp" style="font-size:18px;font-weight:600;min-width:28px;text-align:center">${session.repsInput}</span>
+    <button class="w-btn" style="width:36px;height:36px;font-size:20px" onclick="adjReps(1)">+</button>
+    <button class="btn btn-sm btn-danger" onclick="logFailed()">Mark failed</button>`;
+  grid.appendChild(ctrl);
 }
 
 function adjReps(d) {
@@ -432,122 +694,161 @@ function adjReps(d) {
 
 function logSet() {
   session.sets.push({ reps: session.repsInput, weight: session.weight, failed: false });
-  renderSets();
+  renderSessionSets();
 }
-
 function logFailed() {
   session.sets.push({ reps: session.repsInput, weight: session.weight, failed: true });
-  renderSets();
+  renderSessionSets();
 }
 
-function showSessionDone() {
+function showAdvancePanel() {
   const hasFailed = session.sets.some(s => s.failed);
-  const shouldProgress = session.sets.length === 3 && !hasFailed;
-  const lift = state.lifts.find(l => l.id === session.liftId);
-  document.getElementById('done-msg').textContent = shouldProgress
-    ? '🎉 Great work! Weight goes up next session.'
-    : '📋 Session logged — holding weight.';
-  document.getElementById('done-sub').textContent = shouldProgress
+  const shouldProgress = !hasFailed;
+  const lift = state.lifts.find(l => l.id === session.liftsQueue[session.currentIdx]);
+  const isLast = session.currentIdx === session.liftsQueue.length - 1;
+
+  document.getElementById('advance-msg').textContent = shouldProgress
+    ? '✓ Weight increases next session!'
+    : '📋 Held — set marked failed.';
+  document.getElementById('advance-sub').textContent = shouldProgress
     ? `Next time: ${+(lift.weight + lift.inc).toFixed(1)} lbs (+${lift.inc} lbs)`
     : `Next time: ${lift.weight} lbs (no change)`;
-  document.getElementById('log-session-done').style.display = 'block';
-  document.getElementById('log-set-btn').style.display = 'none';
+
+  const btn = document.getElementById('advance-btn');
+  btn.textContent = isLast ? 'Finish workout ✓' : 'Next lift →';
+  document.getElementById('session-advance').style.display = 'block';
 }
 
-function finishSession() {
-  const lift = state.lifts.find(l => l.id === session.liftId);
+function advanceSession() {
+  // Save current lift result
+  const liftId = session.liftsQueue[session.currentIdx];
+  const lift = state.lifts.find(l => l.id === liftId);
   const hasFailed = session.sets.some(s => s.failed);
-  const shouldProgress = session.sets.length === 3 && !hasFailed;
+  const shouldProgress = !hasFailed;
   const maxWeight = Math.max(...session.sets.map(s => s.weight));
   if (maxWeight > lift.pr) lift.pr = maxWeight;
   if (shouldProgress) { lift.weight = +(lift.weight + lift.inc).toFixed(1); lift.pendingUp = false; }
-  state.history.unshift({
-    date: new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}),
-    liftId: lift.id, liftName: lift.name,
+
+  session.completedLifts.push({
+    liftId, liftName: lift.name,
     sets: JSON.parse(JSON.stringify(session.sets)),
     progressed: shouldProgress
   });
-  saveState();
-  session = null;
-  toast('Session saved! 💪');
+
+  const isLast = session.currentIdx === session.liftsQueue.length - 1;
+  if (isLast) {
+    finishSession();
+  } else {
+    session.currentIdx++;
+    initCurrentLift();
+  }
+}
+
+function finishSession() {
+  const dateStr = new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+  session.completedLifts.forEach(cl => {
+    state.history.unshift({
+      date: dateStr,
+      routineId: session.routineId,
+      routineName: session.routineName,
+      liftId: cl.liftId,
+      liftName: cl.liftName,
+      sets: cl.sets,
+      progressed: cl.progressed
+    });
+  });
+  save();
+  session = null; currentRoutineId = null; selectedLiftIds = [];
+  toast('Workout saved! 💪');
   renderAll();
   showPage('history', document.getElementById('nav-history'));
 }
 
+function confirmAbort() {
+  if (confirm('Cancel this workout? Progress will not be saved.')) {
+    session = null;
+    showLogStep('routine');
+    renderLogStep0();
+  }
+}
+
+function showLogStep(step) {
+  document.getElementById('log-step-routine').style.display = step === 'routine' ? 'block' : 'none';
+  document.getElementById('log-step-select').style.display = step === 'select' ? 'block' : 'none';
+  document.getElementById('log-step-session').style.display = step === 'session' ? 'block' : 'none';
+}
+
+// ─── HISTORY ──────────────────────────────────────────────
 function renderHistory() {
   const el = document.getElementById('history-list');
   if (!state.history.length) {
     el.innerHTML = '<div class="empty"><div class="empty-icon">📈</div>No sessions yet.<br>Log your first workout!</div>';
     return;
   }
-  const byLift = {};
+  // Group by date + routineId
+  const groups = [];
+  const seen = new Set();
   state.history.forEach(h => {
-    if (!byLift[h.liftId]) byLift[h.liftId] = { name: h.liftName, sessions: [] };
-    byLift[h.liftId].sessions.push(h);
+    const key = h.date + '|' + (h.routineId || h.liftId);
+    if (!seen.has(key)) {
+      seen.add(key);
+      groups.push({ date: h.date, routineId: h.routineId, routineName: h.routineName, key });
+    }
   });
-  el.innerHTML = Object.values(byLift).map(lb => {
-    const recent = lb.sessions.slice(0, 8);
-    const weights = recent.map(s => Math.max(...s.sets.map(x => x.weight))).reverse();
-    const maxW = Math.max(...weights) || 1;
-    const bars = weights.map((w, i) =>
-      `<div class="bar" style="height:${Math.max(10,Math.round((w/maxW)*100))}%;background:${i===weights.length-1?'var(--green)':'var(--green-light)'}"></div>`
-    ).join('');
-    const currentW = Math.max(...lb.sessions[0].sets.map(s => s.weight));
-    const prW = Math.max(...lb.sessions.flatMap(s => s.sets.map(x => x.weight)));
-    const liftObj = state.lifts.find(l => l.id === lb.sessions[0].liftId);
+
+  el.innerHTML = groups.map(g => {
+    const liftsInGroup = state.history.filter(h => h.date === g.date && (h.routineId || h.liftId) === (g.routineId || g.key.split('|')[1]));
+    const routine = g.routineId ? state.routines.find(r => r.id === g.routineId) : null;
+    const dotColor = routine ? routine.color : 'var(--ink3)';
+
     return `<div class="card">
-      <div class="lift-row" style="margin-bottom:10px">
-        <div>
-          <div class="lift-name">${lb.name}</div>
-          <div class="lift-meta">${lb.sessions.length} session${lb.sessions.length !== 1 ? 's' : ''}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <div class="routine-dot" style="background:${dotColor}"></div>
+        <div style="flex:1">
+          <div class="lift-name">${g.routineName}</div>
+          <div class="lift-meta">${g.date} &nbsp;·&nbsp; ${liftsInGroup.length} lift${liftsInGroup.length!==1?'s':''}</div>
         </div>
-        ${lb.sessions[0].progressed ? '<span class="badge badge-up">Progressed</span>' : '<span class="badge badge-fail">Held</span>'}
       </div>
-      ${weights.length > 1 ? `<div class="bar-chart">${bars}</div>` : ''}
-      <div class="stat-grid">
-        <div class="stat"><div class="stat-label">Current</div><div class="stat-val">${currentW} lbs</div></div>
-        <div class="stat"><div class="stat-label">All-time PR</div><div class="stat-val green">${prW} lbs</div></div>
-      </div>
-      ${liftObj ? `<div class="rule-box">3 sets × 10 reps → next session adds <strong>+${liftObj.inc} lbs</strong></div>` : ''}
-      <div style="margin-top:12px">
-        ${lb.sessions.slice(0, 5).map(h => `
-          <div style="border-top:0.5px solid var(--border);padding:10px 0">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-              <span style="font-size:13px;color:var(--ink2);font-weight:500">${h.date}</span>
-              ${h.progressed ? '<span class="badge badge-up" style="font-size:11px">Progressed</span>' : '<span class="badge badge-fail" style="font-size:11px">Held</span>'}
-            </div>
-            <div class="history-sets">
-              ${h.sets.map((s,i) => `<div class="hset ${s.failed?'hset-fail':'hset-done'}">
-                <div style="font-size:10px;color:${s.failed?'var(--red)':'var(--green)'};margin-bottom:3px">Set ${i+1}</div>
-                <div style="font-size:14px;font-weight:600;color:${s.failed?'var(--red)':'var(--green-dark)'}">${s.reps}${s.failed?'✗':'✓'}</div>
-                <div style="font-size:10px;color:${s.failed?'var(--red)':'var(--green)'}">${s.weight}lb</div>
-              </div>`).join('')}
-            </div>
-          </div>`).join('')}
-      </div>
+      ${liftsInGroup.map(h => {
+        const weights = h.sets.map(s => s.weight);
+        const maxW = Math.max(...weights);
+        return `<div style="border-top:0.5px solid var(--border);padding:10px 0">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:14px;font-weight:500;color:var(--ink)">${h.liftName}</span>
+            ${h.progressed ? '<span class="badge badge-up">Progressed</span>' : '<span class="badge badge-fail">Held</span>'}
+          </div>
+          <div class="history-sets">
+            ${h.sets.map((s,i) => `<div class="hset ${s.failed?'hset-fail':'hset-done'}">
+              <div style="font-size:10px;color:${s.failed?'var(--red)':'var(--green)'};margin-bottom:3px">Set ${i+1}</div>
+              <div style="font-size:14px;font-weight:600;color:${s.failed?'var(--red)':'var(--green-dark)'}">${s.reps}${s.failed?'✗':'✓'}</div>
+              <div style="font-size:10px;color:${s.failed?'var(--red)':'var(--green)'}">${s.weight}lb</div>
+            </div>`).join('')}
+          </div>
+        </div>`;
+      }).join('')}
     </div>`;
   }).join('');
 }
 
+// ─── EXPORT ───────────────────────────────────────────────
 function exportCSV() {
   if (!state.history.length) { toast('No history to export yet'); return; }
-  const rows = [['Date','Lift','Set','Reps','Weight (lbs)','Failed','Progressed']];
+  const rows = [['Date','Routine','Lift','Set','Reps','Weight (lbs)','Failed','Progressed']];
   state.history.forEach(h => {
     h.sets.forEach((s, i) => {
-      rows.push([h.date, h.liftName, i+1, s.reps, s.weight, s.failed?'Yes':'No', h.progressed?'Yes':'No']);
+      rows.push([h.date, h.routineName, h.liftName, i+1, s.reps, s.weight, s.failed?'Yes':'No', h.progressed?'Yes':'No']);
     });
   });
   const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'workout-log.csv'; a.click();
-  URL.revokeObjectURL(url);
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = 'workout-log.csv'; a.click();
   toast('CSV downloaded!');
 }
 
-function renderAll() { renderLifts(); }
-loadState();
+// ─── Boot ─────────────────────────────────────────────────
+function renderAll() { renderLifts(); renderRoutines(); }
+load();
 </script>
 </body>
 </html>
